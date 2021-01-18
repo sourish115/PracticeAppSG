@@ -2,9 +2,12 @@ package com.example.practiceappsg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.HttpAuthHandler;
+import android.widget.Button;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -28,10 +31,14 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private String[] mon;
     private int[] stat;
+    private Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mon = new String[20];
+        stat = new int[20];
 
 
         OkHttpClient client = new OkHttpClient();
@@ -61,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        btn = findViewById(R.id.get_graph);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),GraphActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+
     }
 
 }
