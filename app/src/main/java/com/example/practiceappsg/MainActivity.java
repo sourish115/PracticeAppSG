@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mon = new String[20];
-        stat = new int[20];
+        mon = new String[12];
+        stat = new int[12];
 
 
         OkHttpClient client = new OkHttpClient();
@@ -69,11 +69,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Bundle b = new Bundle();
+        b.putStringArray("Months", mon);
+        b.putIntArray("Stats", stat);
         btn = findViewById(R.id.get_graph);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),GraphActivity.class);
+                i.putExtras(b);
                 startActivity(i);
 
             }

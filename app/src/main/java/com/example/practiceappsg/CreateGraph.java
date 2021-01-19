@@ -13,17 +13,17 @@ public class CreateGraph extends View {
     public static boolean LINE = true;
 
     private Paint paint;
-    private float[] values;
+    private int[] values;
     private String[] str;
     private String[] verlabels;
     private String title;
     private boolean type;
     Context context;
 
-    public CreateGraph(Context context, float[] values, String title, String[] str,String[] verlabels) {
+    public CreateGraph(Context context, int[] values, String title, String[] str,String[] verlabels) {
         super(context);
         if (values == null)
-            values = new float[0];
+            values = new int[0];
         else
             this.values = values;
         if (title == null)
@@ -80,9 +80,6 @@ public class CreateGraph extends View {
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(title, (graphwidth / 2) + horstart, border - 4, paint);
 
-
-
-
             paint.setColor(Color.BLUE);
             paint.setStyle(Paint.Style.FILL);
 
@@ -90,14 +87,13 @@ public class CreateGraph extends View {
                 float colwidth = (width - (2 * border)) / datalength;
                 for (int i = 0; i < values.length; i++) {
                     float interval_h = graphheight/vers;
-                    int multiplier = (int) (values[i]/5);
+                    int multiplier = (values[i]/50);
                     float top = (interval_h*(vers-multiplier));
-                    float acc = interval_h/5;
-                    acc = acc * (values[i]%5);
+                    float acc = interval_h/50;
+                    acc = acc * (values[i]%50);
 
                     canvas.drawRect((i * colwidth) + horstart, top+border-acc , ((i * colwidth) + horstart) + (colwidth - 1), graphheight+border, paint);
                 }
-
     }
 
 }
