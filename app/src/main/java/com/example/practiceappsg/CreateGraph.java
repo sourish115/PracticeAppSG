@@ -45,15 +45,10 @@ public class CreateGraph extends View {
     @Override
     protected void onDraw(final Canvas canvas) {
         context=getContext();
-        float border = 50;
+        float border = 35;
         float horstart = border * 2;
         float height = getHeight();
         float width = getWidth();
-        float max = getMax();
-        Log.w("max", ""+max);
-        float min = getMin();
-        Log.w("min", ""+min);
-        float diff = max - min;
         float graphheight = height - (2 * border);
         float graphwidth = width - (2 * border);
 
@@ -63,9 +58,9 @@ public class CreateGraph extends View {
             paint.setColor(Color.DKGRAY);
             float y = ((graphheight / vers) * i) + border;
             canvas.drawLine(horstart, y, width, y, paint);
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(10);
-            canvas.drawText(verlabels[i], 0, y, paint);
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(50);
+            canvas.drawText(verlabels[vers-1-i], 0, y, paint);
         }
         int hors = values.length;
         for (int i = 0; i < str.length; i++) {
@@ -77,8 +72,8 @@ public class CreateGraph extends View {
                 paint.setTextAlign(Paint.Align.RIGHT);
             if (i==0)
                 paint.setTextAlign(Paint.Align.LEFT);
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(9);
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(40);
             canvas.drawText( str[i], x, height - 4, paint);
         }
 
@@ -87,57 +82,22 @@ public class CreateGraph extends View {
 
 
 
-        if (max != min) {
+
             paint.setColor(Color.BLUE);
             paint.setStyle(Paint.Style.FILL);
 
                 float datalength = values.length;
                 float colwidth = (width - (2 * border)) / datalength;
                 for (int i = 0; i < values.length; i++) {
-                    //  float val = values[i] - min;
-
-                    //  float rat = val / diff;
-                    //  float h = graphheight * rat;
-                    //  canvas.drawRect((i * colwidth) + horstart, (border - h) + graphheight, ((i * colwidth) + horstart) + (colwidth - 1), height - (border - 1), paint);
-                    float graph_h = getHeight()-(border*2);
-                    // Log.e("", "graph_h > "+graph_h);
-
-                    float ind_h = graph_h/7;
-                    //Log.e("", "ind_h > "+ind_h);
-
-                    float t = values[i]/5;
-
-                    float top = (graph_h - ind_h*(t));
-                    // Log.e("", " > "+i+1);
-                    // Log.e("", "top > "+top);
-
-                    //for values between 0 and 5 ,vice versa
-                    //Log.e("", " values[i] > "+values[i]);
-                    float acc = ind_h/5;
+                    float interval_h = graphheight/vers;
+                    int multiplier = (int) (values[i]/5);
+                    float top = (interval_h*(vers-multiplier));
+                    float acc = interval_h/5;
                     acc = acc * (values[i]%5);
 
-                    //  Log.e("", " acc > "+acc);
-
-                    canvas.drawRect((i * colwidth) + horstart, top+border-acc , ((i * colwidth) + horstart) + (colwidth - 1), graph_h+border, paint);
+                    canvas.drawRect((i * colwidth) + horstart, top+border-acc , ((i * colwidth) + horstart) + (colwidth - 1), graphheight+border, paint);
                 }
-        }
+
     }
 
-
-
-    private float getMax() {
-        float largest = Integer.MIN_VALUE;
-        for (int i = 0; i < values.length; i++)
-            if (values[i] > largest)
-                largest = values[i];
-        return largest;
-    }
-
-    private float getMin() {
-        float smallest = Integer.MAX_VALUE;
-        for (int i = 0; i < values.length; i++)
-            if (values[i] < smallest)
-                smallest = values[i];
-        return smallest;
-    }
 }
