@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.practiceappsg.views.CreateGraph;
+
 public class GraphActivity extends AppCompatActivity {
 
     @Override

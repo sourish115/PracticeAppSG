@@ -1,4 +1,4 @@
-package com.example.practiceappsg;
+package com.example.practiceappsg.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

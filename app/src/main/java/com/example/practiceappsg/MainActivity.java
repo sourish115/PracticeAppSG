@@ -9,6 +9,8 @@ import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.widget.Button;
 
+import com.example.practiceappsg.network.ConnectToAPI;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,38 +42,15 @@ public class MainActivity extends AppCompatActivity {
         mon = new String[12];
         stat = new int[12];
 
-
-        OkHttpClient client = new OkHttpClient();
-        Request req = new Request.Builder().url("https://demo5636362.mockable.io/stats").build();
-        client.newCall(req).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("Response", "Not Connected");
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String Jsondata = response.body().string();
-                try {
-                    JSONObject Jobj = new JSONObject(Jsondata);
-                    JSONArray jArr = Jobj.getJSONArray("data");
-                    int lim = jArr.length();
-                    for(int i=0;i<lim;i++){
-                        JSONObject tObj = jArr.getJSONObject(i);
-                        mon[i] = tObj.getString("month");
-                        stat[i] = Integer.parseInt(tObj.getString("stat"));
-                        Log.d("JSON DATA", mon + " ## " + stat);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
+        ConnectToAPI conn = new ConnectToAPI();
+        conn.connect();
+        mon = conn.getMon();
+        stat = conn.getStat();
 
         Bundle b = new Bundle();
         b.putStringArray("Months", mon);
         b.putIntArray("Stats", stat);
+
         btn = findViewById(R.id.get_graph);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
