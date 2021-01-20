@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity {
         cTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                textView.setText(""+millisUntilFinished/1000);
+                textView.setText("00:"+millisUntilFinished/1000);
             }
 
             @Override
