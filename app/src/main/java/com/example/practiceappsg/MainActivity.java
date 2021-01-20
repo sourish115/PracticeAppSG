@@ -10,6 +10,7 @@ import android.webkit.HttpAuthHandler;
 import android.widget.Button;
 
 import com.example.practiceappsg.network.ConnectToAPI;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -33,7 +34,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private String[] mon;
     private int[] stat;
-    private Button btn;
+    private Button btnGraph, btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mon = new String[12];
         stat = new int[12];
 
-        ConnectToAPI conn = new ConnectToAPI();
+        ConnectToAPI conn = new ConnectToAPI(MainActivity.this);
         conn.connect();
         mon = conn.getMon();
         stat = conn.getStat();
@@ -51,14 +52,24 @@ public class MainActivity extends AppCompatActivity {
         b.putStringArray("Months", mon);
         b.putIntArray("Stats", stat);
 
-        btn = findViewById(R.id.get_graph);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnGraph = findViewById(R.id.get_graph);
+        btnLogout = findViewById(R.id.logout);
+
+        btnGraph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),GraphActivity.class);
                 i.putExtras(b);
                 startActivity(i);
+            }
+        });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, Login.class));
+                finish();
             }
         });
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 
 public class CreateGraph extends View {
@@ -15,10 +14,10 @@ public class CreateGraph extends View {
     private Paint paint;
     private int[] values;
     private String[] str;
-    private String[] verlabels;
+    private String[] verticalLabels;
     private String title;
     private boolean type;
-    Context context;
+    private Context context;
 
     public CreateGraph(Context context, int[] values, String title, String[] str,String[] verlabels) {
         super(context);
@@ -35,9 +34,9 @@ public class CreateGraph extends View {
         else
             this.str = str;
         if (verlabels == null)
-            this.verlabels = new String[0];
+            this.verticalLabels = new String[0];
         else
-            this.verlabels = verlabels;
+            this.verticalLabels = verlabels;
         this.type = type;
         paint = new Paint();
     }
@@ -45,27 +44,27 @@ public class CreateGraph extends View {
     @Override
     protected void onDraw(final Canvas canvas) {
         context=getContext();
-        float border = 35;
-        float horstart = border * 2;
+        float border = 45;
+        float horizontalStart = border * 2;
         float height = getHeight();
         float width = getWidth();
-        float graphheight = height - (2 * border);
-        float graphwidth = width - (2 * border);
+        float graphHeight = height - (2 * border);
+        float graphWidth = width - (2 * border);
 
         paint.setTextAlign(Paint.Align.LEFT);
-        int vers = verlabels.length;
-        for (int i = 0; i < verlabels.length; i++) {
+        int versLength = verticalLabels.length;
+        for (int i = 0; i < verticalLabels.length; i++) {
             paint.setColor(Color.DKGRAY);
-            float y = ((graphheight / vers) * i) + border;
-            canvas.drawLine(horstart, y, width, y, paint);
+            float y = ((graphHeight / versLength) * i) + border;
+            canvas.drawLine(horizontalStart, y, width, y, paint);
             paint.setColor(Color.BLACK);
             paint.setTextSize(50);
-            canvas.drawText(verlabels[vers-1-i], 0, y, paint);
+            canvas.drawText(verticalLabels[versLength-1-i], 0, y, paint);
         }
         int hors = values.length;
         for (int i = 0; i < str.length; i++) {
             paint.setColor(Color.DKGRAY);
-            float x = ((graphwidth / hors) * i) + horstart;
+            float x = ((graphWidth / hors) * i) + horizontalStart;
             canvas.drawLine(x, height - border, x, border, paint);
             paint.setTextAlign(Paint.Align.LEFT);
             if (i==str.length)
@@ -73,12 +72,12 @@ public class CreateGraph extends View {
             if (i==0)
                 paint.setTextAlign(Paint.Align.LEFT);
             paint.setColor(Color.BLACK);
-            paint.setTextSize(40);
+            paint.setTextSize(30);
             canvas.drawText( str[i], x, height - 4, paint);
         }
 
         paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(title, (graphwidth / 2) + horstart, border - 4, paint);
+        canvas.drawText(title, (graphWidth / 2) + horizontalStart, border - 4, paint);
 
             paint.setColor(Color.BLUE);
             paint.setStyle(Paint.Style.FILL);
@@ -86,13 +85,13 @@ public class CreateGraph extends View {
                 float datalength = values.length;
                 float colwidth = (width - (2 * border)) / datalength;
                 for (int i = 0; i < values.length; i++) {
-                    float interval_h = graphheight/vers;
+                    float interval_h = graphHeight/versLength;
                     int multiplier = (values[i]/50);
-                    float top = (interval_h*(vers-multiplier));
+                    float top = (interval_h*(versLength-multiplier));
                     float acc = interval_h/50;
                     acc = acc * (values[i]%50);
 
-                    canvas.drawRect((i * colwidth) + horstart, top+border-acc , ((i * colwidth) + horstart) + (colwidth - 1), graphheight+border, paint);
+                    canvas.drawRect((i * colwidth) + horizontalStart, top+border-acc , ((i * colwidth) + horizontalStart) + (colwidth - 1), graphHeight+border, paint);
                 }
     }
 
